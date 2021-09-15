@@ -10,11 +10,13 @@ app = Flask(__name__)
 jwt = JWTManager(app)
 
 app.config.from_object('config.Config')
-app.config['JWT_SECRET_KEY']="HELANDJB"
 
 ma.init_app(app)
 db.init_app(app)
 migrate = Migrate(app,db)
+
 load_resources(app)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

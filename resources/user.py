@@ -10,12 +10,12 @@ class UserRegister(Resource):
     def post(self):
         input = request.get_json()
         user =UserSchema().load(input)
-
         if  UserModel.findByUsername(user.username):
             return {"message": "User with this username already exist"}, 400
         if UserModel.findByEmail(user.email):
             return {"message": "User with this email already exist"}, 400
         try:
+            user.body_data.calculate_bmi()
             user.save_to_db()
             return {"message":"User created"},200
 

@@ -11,8 +11,10 @@ flask-restful = "*"
 marshmallow-sqlalchemy = "*"
 flask-marshmallow = "*"
 flask-migrate = "*"
+pipenv = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "*"

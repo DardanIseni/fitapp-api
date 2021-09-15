@@ -1,7 +1,7 @@
 from db import db
 
 class UserModel(db.Model):
-
+    __tablename__ = 'user'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String)
     surnname = db.Column(db.String)
@@ -12,6 +12,8 @@ class UserModel(db.Model):
     isAdmin = db.Column(db.Boolean,default=False)
 
     #relations
+    body_data = db.relationship('BodyDataModel',back_populates="user", uselist=False,)
+
 
     #TODO
 
