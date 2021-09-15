@@ -6,6 +6,8 @@ from schemas.user import UserSchema
 from blacklist import  BLACKLIST
 
 user_login_schema = UserSchema(only=('username','password',))
+user_schema = UserSchema()
+
 class UserRegister(Resource):
     def post(self):
         input = request.get_json()
@@ -21,6 +23,7 @@ class UserRegister(Resource):
 
         except Exception as e :
             return {"message":e}
+
 
 class UserLogin(Resource):
 

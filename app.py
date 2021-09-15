@@ -6,6 +6,7 @@ from db import db
 from ma import ma
 
 
+
 app = Flask(__name__)
 jwt = JWTManager(app)
 
@@ -15,8 +16,12 @@ ma.init_app(app)
 db.init_app(app)
 migrate = Migrate(app,db)
 
-load_resources(app)
+def create_tables():
+    with app.app_context():
+        db.create_all()
 
+load_resources(app)
+create_tables()
 
 if __name__ == '__main__':
     app.run(debug=True)

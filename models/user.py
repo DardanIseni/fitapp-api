@@ -13,6 +13,7 @@ class UserModel(db.Model):
 
     #relations
     body_data = db.relationship('BodyDataModel',back_populates="user", uselist=False,)
+    recipe = db.relationship('RecipeModel',backref="user",)
 
 
     #TODO
