@@ -16,10 +16,18 @@ class RecipeModel(db.Model):
     def find_by_title(cls,t):
         return cls.query.filter_by(title=t).first()
 
+    @classmethod
+    def delete_all(cls):
+        db.session.query(RecipeModel).delete()
+        db.session.commit()
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    def delete_to_db(self):
+    def update(self):
+        db.session.commit()
+
+    def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
