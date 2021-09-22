@@ -3,18 +3,16 @@ from functools import wraps
 from models.user import UserModel
 
 
-def admin_required():
-    def wrapper(fn):
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-            verify_jwt_in_request()
-            user_id = get_jwt_identity()
-            user = UserModel.findById(user_id)
-            if user.isAdmin:
-                return fn(*args, **kwargs)
-            else:
-                return {"msg":"Admins only!"}, 403
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        verify_jwt_in_request()
+        jwt = get_jwt_identity()
+        user = UserModel().findById(jwt)
 
-        return decorator
+        if not user.isAdmin:
+            return {"message": "admin required"}, 403
+        else:
+            return fn(*args, **kwargs)
 
     return wrapper

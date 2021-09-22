@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token,create_refresh_token,get_jwt,
 from models.user import UserModel
 from schemas.user import UserSchema
 from blacklist import  BLACKLIST
-
+from utils.role import admin_required
 user_login_schema = UserSchema(only=('username','password',))
 user_schema = UserSchema()
 
@@ -51,4 +51,22 @@ class UserLogout(Resource):
         BLACKLIST.add(jti)
         return {"message": "User <id={}> successfully logged out.".format(user_id)}, 200
 
+
+class UserBulkSms(Resource):
+    @jwt_required()
+    @admin_required
+    def post(self,username:str=None):
+        data = request.get_json()
+        if username is None:
+            user = UserModel().findById(get_jwt_identity())
+            users = UserModel().query.all()
+            user.send_bulk_sms(users,data)
+            return {'msg':"Emails sending done"}
+
+        try:
+            user = UserModel().findByUsername(username)
+            UserModel().send_sms(user,data)
+            return {"message": "Email sended to {}".format(username)}
+        except:
+            return {"message":"Username error"}
 

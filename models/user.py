@@ -1,5 +1,5 @@
 from db import db
-
+from mail import mail,Message as MSG
 class UserModel(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer,primary_key=True)
@@ -30,6 +30,31 @@ class UserModel(db.Model):
     @classmethod
     def findByEmail(cls, email):
         return UserModel.query.filter_by(email=email).first()
+
+    def send_bulk_sms(self, users, json, ):
+        with mail.connect() as conn:
+            for user in users:
+                message = json['message']
+                subject = json['subject']
+                msg = MSG(recipients=[user.email],
+                          sender="dardaniseni2000@gmail.com",
+                          body=message,
+                          subject=subject)
+                conn.send(msg)
+
+    def set_recipe(self,recipe):
+        self.recipe = recipe
+
+    @classmethod
+    def send_sms(cls, user, json):
+        with mail.connect() as conn:
+                message = json['message']
+                subject = json['subject']
+                msg = MSG(recipients=[user.email],
+                          sender="dardaniseni2000@gmail.com",
+                          body=message,
+                          subject=subject)
+                conn.send(msg)
 
     def save_to_db(self):
         db.session.add(self)

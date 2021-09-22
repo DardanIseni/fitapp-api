@@ -9,7 +9,7 @@ recipe_schema = RecipeSchema()
 
 class Recipe(Resource):
 
-    def get(self, title=None):
+    def get(self, title:str=None):
         if title is not None:
             try:
                 recipe = RecipeModel().find_by_title(title)
@@ -21,7 +21,7 @@ class Recipe(Resource):
         return RecipeSchema(many=True).dump(recipes), 200
 
     @jwt_required()
-    @admin_required()
+    @admin_required
     def post(self):
         input = request.get_json()
         user = UserModel.findById(get_jwt_identity())
@@ -36,7 +36,7 @@ class Recipe(Resource):
             return {"message":e}
 
     @jwt_required()
-    @admin_required()
+    @admin_required
     def put(self,title):
         try:
             recipe = RecipeModel().find_by_title(title)
@@ -47,7 +47,7 @@ class Recipe(Resource):
             return {"msg": "Couldnt find recipe"},404
 
     @jwt_required()
-    @admin_required()
+    @admin_required
     def delete(self, title:str = None):
         if title is not None:
             try:
@@ -59,7 +59,6 @@ class Recipe(Resource):
 
         RecipeModel().delete_all()
         return {"msg": "successfully deleted all recipes"}, 200
-
 
 
 
