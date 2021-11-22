@@ -11,14 +11,7 @@ This is a simple RestAPI project in flask,it contain User Auth(which can be divi
 
 4.On config file add your database URI and email details (if you want to use email sending)
 
+----Check resources for endpoints)----
 
-#ENDPOINTS
-
-User Auth
-http://127.0.0.1:5000/user/login  body {"username":"test","password":"test"}
-
-http://127.0.0.1:5000/user/register 
-body {"username":"test","password":"password","name":"test","surname":"test","email":"test@hotmail.com","age":1,"isAdmin":true,"body_data":{"height":185,"weight":90}}
-
-http://127.0.0.1:5000/user/logout
+#Much more things to add in future
 
